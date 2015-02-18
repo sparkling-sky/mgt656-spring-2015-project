@@ -3,60 +3,149 @@
 {% block mainContent %}
 
   {% if errors %}
+
     <div class="form-errors">
+
       <p>Please correct the following errors!</p>
+
       <ul>
+
         {% for error in errors %}
+
           <li>{{error}}</li>
+
         {% endfor %}
+
       </ul>
+
     </div>
-  {% endif %}
 
-	<form id="create-event" method="POST">
-    <label for="title">Event title:</label>
-    <input type="text" name="title" id="title" maxlength="50">
-  
-    <label for="location">Event location:</label>
-    <input type="text" name="location" id="location" maxlength="50">
-  
-    <label for="image">Event image:</label>
-    <input type="text" name="image">
-    
-    <label for="year">Event year:</label>
-        <SELECT>
-        <OPTION value="1">2015</OPTION>
-        <OPTION value="2">2016</OPTION>
+  {% endif %} 
+
+<form id="create-event" method="POST"> 
+
+  <div class="form-group"> 
+
+     <label for="title">Event title:</label>
+
+      <input type="text" name="title" id="title" maxlength="50"> 
+
+  </div>
+
+    <div class="form-group">
+
+      <label for="location">Event location:</label>
+
+      <input type="text" name="location" id="location" maxlength="50">
+
+  </div>
+
+     <div class="form-group">
+
+      <label for="image">Event image:</label>
+
+      <input type="text" name="image">
+
+    </div>
+
+     <div class="form-group">
+
+        <label for="year">Event year:</label>
+
+        <SELECT name="year" id="year">
+
+          {% for year in allowedDateInfo.years %}
+
+        <OPTION value="{{year}}">{{year}}</OPTION>
+
+          {% endfor %}
+
         </SELECT>
+
+      </div>
+
+      
+
+     <div class="form-group">
+
+        <label for="month">Event month:</label>
+
+        <select name="month" id="month">
+
+          {% for monthNumber, monthName in allowedDateInfo.months %}
+
+        <option value="{{monthNumber}}">{{monthName}}</option>
+
+          {% endfor %}
+
+        </select>
+
+      </div>
+
+          
+
+           <div class="form-group">
+
+        <label for="day">Event day:</label>
+
+        <select name="day" id="day">
+
+          {% for day in allowedDateInfo.days %}
+
+        <option value="{{day}}">{{day}}</option>
+
+          {% endfor %}
+
+        </select>
+
+      </div>
+
+      
+
+        
+
+           <div class="form-group">
+
+        <label for="hour">Event hour:</label>
+
+        <select name="hour" id="hour">
+
+          {% for hour in allowedDateInfo.hours %}
+
+        <option value="{{hour}}">{{hour}}</option>
+
+          {% endfor %}
+
+        </select>
+
+      </div>
+
+      
+
+           
+
+      <div class="form-group">
+
+        <label for="minute">Event minute:</label>
+
+        <select name="minute" id="minute">
+
+          {% for minute in allowedDateInfo.minutes %}
+
+          <option value="{{minute}}">{{minute}}</option>
+
+          {% endfor %}
+
+        </select>
+
+      </div>
+
     
-    <label for="month">Event month:</label>
-        <SELECT>
-        <OPTION value="1">January</OPTION>
-        <OPTION value="2">February</OPTION>
-        <OPTION value="3">March</OPTION>
-        <OPTION value="4">April</OPTION>
-        <OPTION value="5">May</OPTION>
-        <OPTION value="6">June</OPTION>
-        <OPTION value="7">July</OPTION>
-        <OPTION value="8">August</OPTION>
-        <OPTION value="9">September</OPTION>
-        <OPTION value="10">October</OPTION>
-        <OPTION value="11">November</OPTION>
-        <OPTION value="12">December</OPTION>
-        </SELECT>
-    
-    <label for="day">Event day:</label>
-    <input type="text" name="day">
-    
-    <label for="hour">Event hour:</label>
-    <input type="text" name="hour">
-    
-    <label for="minute">Event minute:</label>
-    <input type="text" name="minute">
-    
-    <input type="submit" id="submit" value="Submit event">
+
+    <input type="submit" name="submit">
+
      
+
   </form>
+
 {% endblock %}
-
-
