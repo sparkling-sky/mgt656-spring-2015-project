@@ -2,6 +2,7 @@
 
 var events = require('../models/events');
 var validator = require('validator');
+var lodash = require('lodash');
 
 // Date data that would be useful to you
 // completing the project These data are not
@@ -27,7 +28,8 @@ var allowedDateInfo = {
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
     12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23
   ],
-  years: [2015,2016]
+  years: [2015,2016],
+  days: lodash.range(1,32)
 };
 
 /**
@@ -46,9 +48,21 @@ function listEvents(request, response) {
  * Controller that renders a page for creating new events.
  */
 function newEvent(request, response){
-  var contextData = {};
+  var contextData = {allowedDateInfo:allowedDateInfo};
   response.render('create-event.html', contextData);
 }
+
+function isRangedInt(number,name, min, max, errors) {
+  if(validator.isInt(number)){
+    var numberAsInt = parseInt(number);
+    if(number >= min && number <= max){
+      return;
+    }
+  }
+  errors.push(name + " should be an int in the rage" + min + "to" + max);
+}
+
+  // body...
 
 /**
  * Controller to which new events are submitted.
@@ -56,12 +70,18 @@ function newEvent(request, response){
  * our global list of events.
  */
 function saveEvent(request, response){
-  var contextData = {errors: []};
+  var contextData = {errors: [], allowedDateInfo:allowedDateInfo};
 
   if (validator.isLength(request.body.title, 5, 50) === false) {
     contextData.errors.push('The title must be less than 50 characters.');
   }
-
+  
+  isRangedInt(request.body.year, 'year',allowedDateInfo.years[0],allowedDateInfo.years[allowedDateInfo.years.length], contextData.errors);
+  isRangedInt(request.body.month, 'month',0,11, contextData.errors);
+  isRangedInt(request.body.day, 'day',allowedDateInfo.days[0],allowedDateInfo.years[allowedDateInfo.days.length], contextData.errors);
+  isRangedInt(request.body.hour, 'hour',allowedDateInfo.hours[0],allowedDateInfo.years[allowedDateInfo.hours.length], contextData.errors);
+  isRangedInt(request.body.minute, 'minute',allowedDateInfo.minutes[0],allowedDateInfo.years[allowedDateInfo.minutes.length], contextData.errors);    
+      
   if (validator.isLength(request.body.location, 5, 50) === false) {
     contextData.errors.push('The location must be less than 50 characters.');
   }
